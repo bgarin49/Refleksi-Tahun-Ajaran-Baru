@@ -433,97 +433,79 @@
       </button>
     </div>
     <script type="module">
-      // Import fungsi yang dibutuhkan dari SDK
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-      import {
-        getFirestore,
-        collection,
-        addDoc,
-        serverTimestamp,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-      // Konfigurasi Firebase (Ganti dengan milikmu dari Firebase Console!)
-      const firebaseConfig = {
-        apiKey: "AIzaSyDU8EarYjLpRSl-J3bGGVb8nVNjWcl3mvs",
-        authDomain: "refleksigenap2025-2026.firebaseapp.com",
-        projectId: "refleksigenap2025-2026",
-        storageBucket: "refleksigenap2025-2026.firebasestorage.app",
-        messagingSenderId: "120268266000",
-        appId: "1:120268266000:web:1c968d45cd46d20eaa8895",
+  const firebaseConfig = {
+    apiKey: "AIzaSyDU8EarYjLpRSl-J3bGGVb8nVNjWcl3mvs",
+    authDomain: "refleksigenap2025-2026.firebaseapp.com",
+    projectId: "refleksigenap2025-2026",
+    storageBucket: "refleksigenap2025-2026.firebasestorage.app",
+    messagingSenderId: "120268266000",
+    appId: "1:120268266000:web:1c968d45cd46d20eaa8895",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 1. Logika Klik Lingkaran Angka
+  const circles = document.querySelectorAll(".num-circle");
+  circles.forEach((circle) => {
+    circle.addEventListener("click", () => {
+      circles.forEach((c) => {
+        c.style.backgroundColor = "white";
+        c.style.color = "black";
+      });
+      circle.style.backgroundColor = "#b2a4ff";
+      circle.style.color = "white";
+      circle.setAttribute("data-selected", "true"); // Penanda untuk diambil datanya
+    });
+  });
+
+  // 2. Fungsi Kirim Data (Hanya satu fungsi generate)
+  window.generate = async function () {
+    const btn = document.querySelector(".btn-save");
+    const nama = document.querySelector('input[placeholder="Tulis namamu..."]').value;
+
+    if (!nama) {
+      alert("Tulis namamu dulu ya! 😊");
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerText = "Sedang Mengirim... ⏳";
+
+    try {
+      const dataRefleksi = {
+        nama: nama,
+        kelas: document.querySelector('input[placeholder="Kelas berapa?"]').value,
+        lokasiLiburan: document.querySelectorAll(".line-input input")[0].value,
+        aktivitas: document.querySelectorAll(".line-input input")[1].value,
+        teman: document.querySelectorAll(".line-input input")[2].value,
+        momenTerbaik: document.querySelectorAll(".line-input input")[3].value,
+        halBaru: document.querySelector('textarea[placeholder*="Misal: Belajar"]').value,
+        mood: document.querySelector('input[name="mood"]:checked')?.parentElement.innerText.trim() || "Tidak dipilih",
+        janji: document.querySelector('textarea[placeholder="Aku berjanji akan..."]').value,
+        badHabit: document.querySelector('textarea[placeholder="Scroll TikTok kelamaan..."]').value,
+        rencana: document.querySelector('input[placeholder="Tulis rencanamu..."]').value,
+        levelSemangat: document.querySelector('.num-circle[style*="background-color: rgb(178, 164, 255)"]')?.innerText || "0",
+        createdAt: serverTimestamp(),
       };
 
-      // Inisialisasi Firebase
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      // Jadikan fungsi kirim tersedia secara global
-      window.generate = async function () {
-        const btn = document.querySelector(".btn-save");
-        btn.disabled = true;
-        btn.innerText = "Sedang Mengirim... ⏳";
-
-        try {
-          // Ambil data dari input
-          const dataRefleksi = {
-            nama: document.querySelector('input[placeholder="Tulis namamu..."]')
-              .value,
-            kelas: document.querySelector('input[placeholder="Kelas berapa?"]')
-              .value,
-            lokasiLiburan:
-              document.querySelectorAll(".line-input input")[0].value,
-            aktivitas: document.querySelectorAll(".line-input input")[1].value,
-            teman: document.querySelectorAll(".line-input input")[2].value,
-            momenTerbaik:
-              document.querySelectorAll(".line-input input")[3].value,
-            halBaru: document.querySelector(
-              'textarea[placeholder*="Misal: Belajar"]'
-            ).value,
-            mood:
-              document
-                .querySelector('input[name="mood"]:checked')
-                ?.parentElement.innerText.trim() || "Tidak dipilih",
-            janji: document.querySelector(
-              'textarea[placeholder="Aku berjanji akan..."]'
-            ).value,
-            badHabit: document.querySelector(
-              'textarea[placeholder="Scroll TikTok kelamaan..."]'
-            ).value,
-            rencana: document.querySelector(
-              'input[placeholder="Tulis rencanamu..."]'
-            ).value,
-            // Mengambil level semangat dari lingkaran yang aktif
-            levelSemangat:
-              document.querySelector(
-                '.num-circle[style*="background-color: rgb(178, 164, 255)"]'
-              )?.innerText || "0",
-            createdAt: serverTimestamp(),
-          };
-
-          // Simpan ke koleksi "refleksi_siswa"
-          const docRef = await addDoc(
-            collection(db, "refleksi_siswa"),
-            dataRefleksi
-          );
-
-          alert("Keren! Refleksi kamu tersimpan dengan ID: " + docRef.id);
-          location.reload(); // Refresh halaman setelah sukses
-        } catch (e) {
-          console.error("Error adding document: ", e);
-          alert(
-            "Ups! Ada kesalahan saat menyimpan. Coba cek koneksi atau konfigurasi."
-          );
-        } finally {
-          btn.disabled = false;
-          btn.innerText = "Kirim Refleksi & Mulai Petualangan! 🚀";
-        }
-      };
-      function generate() {
-        alert(
-          "Keren! Refleksi kamu sudah tercatat. Mari buat semester ini jadi yang terbaik! ✨"
-        );
-      }
-    </script>
+      const docRef = await addDoc(collection(db, "refleksi_siswa"), dataRefleksi);
+      alert("Keren! Refleksi kamu tersimpan! ✨");
+      location.reload(); 
+    } catch (e) {
+      console.error("Detail Error: ", e);
+      alert("Gagal: " + e.message); // Ini akan memunculkan alasan spesifik dari Firebase
+    } finally {
+      btn.disabled = false;
+      btn.innerText = "Kirim Refleksi & Mulai Petualangan! 🚀";
+    }
+  };
+</script>
   </body>
 </html>
+
 
 
