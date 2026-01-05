@@ -21,14 +21,12 @@
         padding: 40px 20px;
         display: flex;
         justify-content: center;
-        /* BACKGROUND BARU: Pola Grid Buku Catatan Aesthetic */
         background-color: #f8f9fa;
         background-image: linear-gradient(var(--soft-blue) 1px, transparent 1px),
           linear-gradient(90deg, var(--soft-blue) 1px, transparent 1px);
-        background-size: 30px 30px; /* Ukuran kotak grid */
+        background-size: 30px 30px;
       }
 
-      /* Menambahkan dekorasi tambahan di luar container agar lebih menarik */
       body::before {
         content: "✨ Happy New Semester ✨";
         position: fixed;
@@ -51,7 +49,6 @@
         z-index: 1;
       }
 
-      /* Dekorasi Sudut (Washi Tape) */
       .washi-tape {
         position: absolute;
         width: 120px;
@@ -66,7 +63,6 @@
       .header-banner {
         text-align: center;
         margin-bottom: 40px;
-        position: relative;
       }
 
       .banner-box {
@@ -128,12 +124,8 @@
         position: relative;
       }
 
-      .card-yellow {
-        background-color: var(--soft-yellow);
-      }
-      .card-purple {
-        border-color: var(--primary-purple);
-      }
+      .card-yellow { background-color: var(--soft-yellow); }
+      .card-purple { border-color: var(--primary-purple); }
 
       .section-title {
         font-weight: bold;
@@ -174,12 +166,6 @@
         line-height: 1.4;
       }
 
-      .sticker {
-        font-size: 30px;
-        position: absolute;
-        z-index: 5;
-      }
-
       .grid-2-col {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -194,27 +180,9 @@
         box-shadow: 4px 4px 0px var(--soft-blue);
       }
 
-      .option-item label {
-        cursor: pointer;
-        text-align: center;
-        display: block;
-        transition: transform 0.2s;
-      }
-
-      .option-item label:hover {
-        transform: scale(1.2);
-      }
-
-      .number-scale {
-        display: flex;
-        justify-content: space-between;
-        gap: 4px;
-        margin-top: 10px;
-      }
-
       .num-circle {
-        width: 28px;
-        height: 28px;
+        width: 30px;
+        height: 30px;
         border: 2px solid var(--border-dark);
         border-radius: 50%;
         display: flex;
@@ -222,9 +190,13 @@
         justify-content: center;
         cursor: pointer;
         font-weight: bold;
-        font-size: 13px;
-        transition: 0.3s;
-        background: white;
+        transition: 0.2s;
+      }
+
+      .num-circle.active {
+        background-color: var(--primary-purple);
+        color: white;
+        transform: scale(1.2);
       }
 
       .btn-save {
@@ -241,18 +213,15 @@
         box-shadow: 5px 5px 0px #000;
       }
 
-      .btn-save:active {
-        box-shadow: 0px 0px 0px #000;
-        transform: translate(5px, 5px);
+      .btn-save:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
       }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="washi-tape"></div>
-      <span class="sticker" style="top: 100px; left: -10px">🚀</span>
-      <span class="sticker" style="top: 400px; right: 10px">🎨</span>
-      <span class="sticker" style="bottom: 100px; left: 10px">✨</span>
 
       <div class="header-banner">
         <div class="banner-box">
@@ -264,248 +233,113 @@
       <div class="identity-grid">
         <div class="input-fields">
           <div class="input-group" style="margin-bottom: 10px">
-            <b>Nama:</b> <input type="text" placeholder="Tulis namamu..." />
+            <b>Nama:</b> <input type="text" id="nama" placeholder="Tulis namamu..." />
           </div>
           <div class="input-group">
-            <b>Kelas:</b> <input type="text" placeholder="Kelas berapa?" />
+            <b>Kelas:</b> <input type="text" id="kelas" placeholder="Kelas berapa?" />
           </div>
         </div>
-        <div
-          style="
-            font-family: monospace;
-            border: 2px solid #000;
-            padding: 10px;
-            background: #fff;
-          "
-        >
+        <div style="font-family: monospace; border: 2px solid #000; padding: 10px; background: #fff;">
           MODE: AWESOME 😎
         </div>
       </div>
 
       <div class="card card-purple">
         <div class="section-title">✨ Cerita Singkat Liburanku</div>
-        <div class="line-input">📍 Aku pergi ke: <input type="text" /></div>
-        <div class="line-input">
-          📸 Aktivitas favorit: <input type="text" />
-        </div>
-        <div class="line-input">👯 Bareng siapa?: <input type="text" /></div>
-        <div class="line-input">🌈 Momen terbaik: <input type="text" /></div>
+        <div class="line-input">📍 Aku pergi ke: <input type="text" class="holiday-input" /></div>
+        <div class="line-input">📸 Aktivitas favorit: <input type="text" class="holiday-input" /></div>
+        <div class="line-input">👯 Bareng siapa?: <input type="text" class="holiday-input" /></div>
+        <div class="line-input">🌈 Momen terbaik: <input type="text" class="holiday-input" /></div>
       </div>
 
       <div class="section-title">🧠 Hal seru yang aku pelajari:</div>
-      <div class="card card-yellow" style="min-height: 80px">
-        <textarea
-          rows="3"
-          placeholder="Misal: Belajar masak, dapet skill baru..."
-        ></textarea>
+      <div class="card card-yellow">
+        <textarea id="halBaru" rows="3" placeholder="Misal: Belajar masak, dapet skill baru..."></textarea>
       </div>
 
       <div class="grid-2-col">
         <div class="selection-group">
           <div class="section-title">Mood Liburan?</div>
-          <div
-            class="options"
-            style="
-              display: flex;
-              justify-content: space-around;
-              font-size: 25px;
-            "
-          >
-            <div class="option-item">
-              <label>🥰<br /><input type="radio" name="mood" /></label>
-            </div>
-            <div class="option-item">
-              <label>😴<br /><input type="radio" name="mood" /></label>
-            </div>
-            <div class="option-item">
-              <label>🥳<br /><input type="radio" name="mood" /></label>
-            </div>
-            <div class="option-item">
-              <label>🤪<br /><input type="radio" name="mood" /></label>
-            </div>
+          <div style="display: flex; justify-content: space-around; font-size: 25px;">
+            <label><input type="radio" name="mood" value="🥰"> 🥰</label>
+            <label><input type="radio" name="mood" value="😴"> 😴</label>
+            <label><input type="radio" name="mood" value="🥳"> 🥳</label>
           </div>
         </div>
         <div class="selection-group">
-          <div class="section-title">Naik apa?</div>
-          <div
-            class="options"
-            style="
-              display: flex;
-              justify-content: space-around;
-              font-size: 25px;
-            "
-          >
-            <div class="option-item">
-              <label>🛵<br /><input type="checkbox" /></label>
-            </div>
-            <div class="option-item">
-              <label>🚗<br /><input type="checkbox" /></label>
-            </div>
-            <div class="option-item">
-              <label>🚆<br /><input type="checkbox" /></label>
-            </div>
-            <div class="option-item">
-              <label>✈️<br /><input type="checkbox" /></label>
-            </div>
+          <div class="section-title">Level Semangat:</div>
+          <div id="spirit-scale" style="display: flex; gap: 5px; justify-content: center;">
+            <div class="num-circle">1</div><div class="num-circle">2</div><div class="num-circle">3</div>
+            <div class="num-circle">4</div><div class="num-circle">5</div><div class="num-circle">6</div>
+            <div class="num-circle">7</div><div class="num-circle">8</div><div class="num-circle">9</div><div class="num-circle">10</div>
           </div>
         </div>
       </div>
 
-      <div style="text-align: center; margin: 40px 0; color: #ccc">
-        --------------------
-        <span style="color: var(--primary-pink)">❤</span> --------------------
-      </div>
-
-      <div
-        class="section-title"
-        style="font-size: 24px; color: var(--primary-pink)"
-      >
-        📓 Refleksi Awal Semester
-      </div>
-
-      <div class="grid-2-col" style="margin-top: 20px">
-        <div>
-          <p><b>Sekarang perasaanku:</b></p>
-          <div style="display: flex; gap: 15px; font-size: 30px">
-            <div class="option-item">
-              <label>☹️<br /><input type="radio" name="feel" /></label>
-            </div>
-            <div class="option-item">
-              <label>😐<br /><input type="radio" name="feel" /></label>
-            </div>
-            <div class="option-item">
-              <label>🙂<br /><input type="radio" name="feel" /></label>
-            </div>
-            <div class="option-item">
-              <label>🤩<br /><input type="radio" name="feel" /></label>
-            </div>
-          </div>
-
-          <p style="margin-top: 30px"><b>Janji di Semester 2:</b></p>
-          <div
-            class="card"
-            style="border-style: solid; border-width: 2px; background: #fdfdfd"
-          >
-            <textarea rows="4" placeholder="Aku berjanji akan..."></textarea>
-          </div>
-        </div>
-
-        <div>
-          <p><b>Bad Habit yang mau dikurangi:</b></p>
-          <div class="card" style="border-color: #ffcc00; background: #fffdf0">
-            <textarea
-              rows="2"
-              placeholder="Scroll TikTok kelamaan..."
-            ></textarea>
-          </div>
-
-          <p><b>Cara biar janji terpenuhi:</b></p>
-          <input
-            type="text"
-            style="
-              width: 100%;
-              border: none;
-              border-bottom: 2px solid var(--soft-blue);
-              font-family: 'Patrick Hand';
-              font-size: 20px;
-            "
-            placeholder="Tulis rencanamu..."
-          />
-
-          <p style="margin-top: 30px"><b>Level Semangat Belajar:</b></p>
-          <div class="number-scale">
-            <div class="num-circle">1</div>
-            <div class="num-circle">2</div>
-            <div class="num-circle">3</div>
-            <div class="num-circle">4</div>
-            <div class="num-circle">5</div>
-            <div class="num-circle">6</div>
-            <div class="num-circle">7</div>
-            <div class="num-circle">8</div>
-            <div class="num-circle">9</div>
-            <div class="num-circle">10</div>
-          </div>
-        </div>
-      </div>
-
-      <button class="btn-save" onclick="generate()">
-        Kirim Refleksi & Mulai Petualangan! 🚀
-      </button>
+      <button class="btn-save" id="submitBtn">Kirim Refleksi & Mulai Petualangan! 🚀</button>
     </div>
+
     <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDU8EarYjLpRSl-J3bGGVb8nVNjWcl3mvs",
-    authDomain: "refleksigenap2025-2026.firebaseapp.com",
-    projectId: "refleksigenap2025-2026",
-    storageBucket: "refleksigenap2025-2026.firebasestorage.app",
-    messagingSenderId: "120268266000",
-    appId: "1:120268266000:web:1c968d45cd46d20eaa8895",
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  // 1. Logika Klik Lingkaran Angka
-  const circles = document.querySelectorAll(".num-circle");
-  circles.forEach((circle) => {
-    circle.addEventListener("click", () => {
-      circles.forEach((c) => {
-        c.style.backgroundColor = "white";
-        c.style.color = "black";
-      });
-      circle.style.backgroundColor = "#b2a4ff";
-      circle.style.color = "white";
-      circle.setAttribute("data-selected", "true"); // Penanda untuk diambil datanya
-    });
-  });
-
-  // 2. Fungsi Kirim Data (Hanya satu fungsi generate)
-  window.generate = async function () {
-    const btn = document.querySelector(".btn-save");
-    const nama = document.querySelector('input[placeholder="Tulis namamu..."]').value;
-
-    if (!nama) {
-      alert("Tulis namamu dulu ya! 😊");
-      return;
-    }
-
-    btn.disabled = true;
-    btn.innerText = "Sedang Mengirim... ⏳";
-
-    try {
-      const dataRefleksi = {
-        nama: nama,
-        kelas: document.querySelector('input[placeholder="Kelas berapa?"]').value,
-        lokasiLiburan: document.querySelectorAll(".line-input input")[0].value,
-        aktivitas: document.querySelectorAll(".line-input input")[1].value,
-        teman: document.querySelectorAll(".line-input input")[2].value,
-        momenTerbaik: document.querySelectorAll(".line-input input")[3].value,
-        halBaru: document.querySelector('textarea[placeholder*="Misal: Belajar"]').value,
-        mood: document.querySelector('input[name="mood"]:checked')?.parentElement.innerText.trim() || "Tidak dipilih",
-        janji: document.querySelector('textarea[placeholder="Aku berjanji akan..."]').value,
-        badHabit: document.querySelector('textarea[placeholder="Scroll TikTok kelamaan..."]').value,
-        rencana: document.querySelector('input[placeholder="Tulis rencanamu..."]').value,
-        levelSemangat: document.querySelector('.num-circle[style*="background-color: rgb(178, 164, 255)"]')?.innerText || "0",
-        createdAt: serverTimestamp(),
+      const firebaseConfig = {
+        apiKey: "AIzaSyDU8EarYjLpRSl-J3bGGVb8nVNjWcl3mvs",
+        authDomain: "refleksigenap2025-2026.firebaseapp.com",
+        projectId: "refleksigenap2025-2026",
+        storageBucket: "refleksigenap2025-2026.firebasestorage.app",
+        messagingSenderId: "120268266000",
+        appId: "1:120268266000:web:1c968d45cd46d20eaa8895",
       };
 
-      const docRef = await addDoc(collection(db, "refleksi_siswa"), dataRefleksi);
-      alert("Keren! Refleksi kamu tersimpan! ✨");
-      location.reload(); 
-    } catch (e) {
-      console.error("Detail Error: ", e);
-      alert("Gagal: " + e.message); // Ini akan memunculkan alasan spesifik dari Firebase
-    } finally {
-      btn.disabled = false;
-      btn.innerText = "Kirim Refleksi & Mulai Petualangan! 🚀";
-    }
-  };
-</script>
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // Logika interaktif Level Semangat
+      let selectedSpirit = "0";
+      document.querySelectorAll(".num-circle").forEach(el => {
+        el.addEventListener("click", () => {
+          document.querySelectorAll(".num-circle").forEach(c => c.classList.remove("active"));
+          el.classList.add("active");
+          selectedSpirit = el.innerText;
+        });
+      });
+
+      // Fungsi Kirim
+      document.getElementById("submitBtn").onclick = async function () {
+        const btn = this;
+        const nama = document.getElementById("nama").value;
+
+        if(!nama) { alert("Isi namamu dulu ya!"); return; }
+
+        btn.disabled = true;
+        btn.innerText = "Sedang Mengirim... ⏳";
+
+        try {
+          const holidayInputs = document.querySelectorAll(".holiday-input");
+          const data = {
+            nama: nama,
+            kelas: document.getElementById("kelas").value,
+            lokasi: holidayInputs[0].value,
+            aktivitas: holidayInputs[1].value,
+            teman: holidayInputs[2].value,
+            momen: holidayInputs[3].value,
+            halBaru: document.getElementById("halBaru").value,
+            mood: document.querySelector('input[name="mood"]:checked')?.value || "Biasa aja",
+            levelSemangat: selectedSpirit,
+            createdAt: serverTimestamp(),
+          };
+
+          await addDoc(collection(db, "refleksi_siswa"), data);
+          alert("Yeay! Refleksi kamu berhasil terkirim! ✨");
+          location.reload();
+        } catch (e) {
+          console.error(e);
+          alert("Error: " + e.message);
+        } finally {
+          btn.disabled = false;
+        }
+      };
+    </script>
   </body>
 </html>
-
-
-
