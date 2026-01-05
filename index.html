@@ -18,7 +18,7 @@
       body {
         font-family: "Quicksand", sans-serif;
         margin: 0;
-        padding: 40px 20px;
+        padding: 40px 10px; /* Diperkecil untuk HP */
         display: flex;
         justify-content: center;
         background-color: #f8f9fa;
@@ -32,21 +32,36 @@
         position: fixed;
         top: 10px;
         font-family: "Patrick Hand", cursive;
-        font-size: 24px;
+        font-size: 20px; /* Sedikit lebih kecil agar tidak menabrak bar browser */
         color: var(--primary-pink);
         font-weight: bold;
+        z-index: 100;
+        width: 100%;
+        text-align: center;
+        left: 0;
       }
 
       .container {
         background-color: white;
-        width: 850px;
+        width: 95%; /* Responsif: mengikuti lebar layar */
+        max-width: 850px; /* Batas maksimal layar desktop */
         border: 3px solid var(--border-dark);
-        padding: 40px;
-        box-shadow: 15px 15px 0px var(--primary-purple);
+        padding: 25px; /* Sedikit dikurangi agar lega di HP */
+        box-shadow: 10px 10px 0px var(--primary-purple);
         border-radius: 5px;
         position: relative;
         overflow: hidden;
         z-index: 1;
+      }
+
+      @media (min-width: 768px) {
+        .container {
+          padding: 40px;
+          box-shadow: 15px 15px 0px var(--primary-purple);
+        }
+        body::before {
+          font-size: 24px;
+        }
       }
 
       .washi-tape {
@@ -69,14 +84,15 @@
       .banner-box {
         display: inline-block;
         transform: rotate(-1deg);
+        max-width: 100%;
       }
 
       .title-top {
         background-color: var(--primary-pink);
         color: white;
-        font-size: 32px;
+        font-size: 24px; /* Responsif */
         font-weight: bold;
-        padding: 10px 50px;
+        padding: 10px 20px;
         border: 3px solid var(--border-dark);
         border-radius: 8px;
         display: block;
@@ -86,9 +102,9 @@
       .title-bottom {
         background-color: var(--soft-blue);
         color: var(--border-dark);
-        font-size: 22px;
+        font-size: 16px; /* Responsif */
         font-weight: bold;
-        padding: 5px 30px;
+        padding: 5px 15px;
         border: 3px solid var(--border-dark);
         border-radius: 8px;
         margin-top: -10px;
@@ -96,14 +112,33 @@
         box-shadow: 4px 4px 0px #000;
       }
 
+      @media (min-width: 600px) {
+        .title-top {
+          font-size: 32px;
+          padding: 10px 50px;
+        }
+        .title-bottom {
+          font-size: 22px;
+          padding: 5px 30px;
+        }
+      }
+
       .identity-grid {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column; /* Baris ke bawah di HP */
+        gap: 15px;
         margin-bottom: 30px;
         background: #fff9f9;
         padding: 15px;
         border-radius: 15px;
         border: 2px dashed var(--primary-pink);
+      }
+
+      @media (min-width: 600px) {
+        .identity-grid {
+          flex-direction: row;
+          justify-content: space-between;
+        }
       }
 
       .input-group input {
@@ -114,6 +149,7 @@
         font-size: 18px;
         outline: none;
         background: transparent;
+        width: 100%; /* Agar input panjang di HP */
       }
 
       .card {
@@ -134,29 +170,32 @@
 
       .section-title {
         font-weight: bold;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         margin-bottom: 15px;
         display: flex;
         align-items: center;
         gap: 10px;
+        flex-wrap: wrap; /* Mencegah judul keluar layar */
       }
 
       .line-input {
         margin-bottom: 15px;
         font-family: "Patrick Hand", cursive;
-        font-size: 20px;
+        font-size: 18px;
         border-bottom: 1px solid #ccc;
         display: flex;
+        flex-wrap: wrap; /* Label dan input bisa tumpuk di HP sangat kecil */
         align-items: center;
       }
 
       .line-input input {
         flex: 1;
+        min-width: 150px;
         border: none;
         outline: none;
         background: transparent;
         font-family: "Patrick Hand", cursive;
-        font-size: 20px;
+        font-size: 18px;
         margin-left: 5px;
       }
 
@@ -172,15 +211,22 @@
       }
 
       .sticker {
-        font-size: 30px;
+        font-size: 25px;
         position: absolute;
         z-index: 5;
+        opacity: 0.6; /* Agar tidak terlalu menutupi teks di layar kecil */
       }
 
       .grid-2-col {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr; /* 1 Kolom di HP */
         gap: 20px;
+      }
+
+      @media (min-width: 700px) {
+        .grid-2-col {
+          grid-template-columns: 1fr 1fr;
+        } /* 2 Kolom di Desktop */
       }
 
       .selection-group {
@@ -191,27 +237,24 @@
         box-shadow: 4px 4px 0px var(--soft-blue);
       }
 
-      .option-item label {
-        cursor: pointer;
-        text-align: center;
-        display: block;
-        transition: transform 0.2s;
-      }
-
-      .option-item label:hover {
-        transform: scale(1.2);
+      .options {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap; /* Agar emoji turun ke bawah jika layar sempit */
+        gap: 10px;
       }
 
       .number-scale {
         display: flex;
-        justify-content: space-between;
-        gap: 4px;
+        flex-wrap: wrap; /* Agar angka tidak keluar layar */
+        justify-content: center;
+        gap: 6px;
         margin-top: 10px;
       }
 
       .num-circle {
-        width: 28px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
         border: 2px solid var(--border-dark);
         border-radius: 50%;
         display: flex;
@@ -219,8 +262,7 @@
         justify-content: center;
         cursor: pointer;
         font-weight: bold;
-        font-size: 13px;
-        transition: 0.3s;
+        font-size: 14px;
         background: white;
       }
 
@@ -230,10 +272,12 @@
         background-color: var(--primary-pink);
         color: white;
         border: 3px solid var(--border-dark);
-        padding: 15px 40px;
+        padding: 15px 30px;
         border-radius: 50px;
         font-weight: bold;
-        font-size: 18px;
+        font-size: 16px;
+        width: 100%; /* Full width di HP */
+        max-width: 400px;
         cursor: pointer;
         box-shadow: 5px 5px 0px #000;
       }
@@ -247,9 +291,8 @@
   <body>
     <div class="container">
       <div class="washi-tape"></div>
-      <span class="sticker" style="top: 100px; left: -10px">🚀</span>
-      <span class="sticker" style="top: 400px; right: 10px">🎨</span>
-      <span class="sticker" style="bottom: 100px; left: 10px">✨</span>
+      <span class="sticker" style="top: 100px; left: -5px">🚀</span>
+      <span class="sticker" style="top: 400px; right: 5px">🎨</span>
 
       <div class="header-banner">
         <div class="banner-box">
@@ -273,6 +316,7 @@
             border: 2px solid #000;
             padding: 10px;
             background: #fff;
+            text-align: center;
           "
         >
           MODE: AWESOME 😎
@@ -300,14 +344,7 @@
       <div class="grid-2-col">
         <div class="selection-group">
           <div class="section-title">Mood Liburan?</div>
-          <div
-            class="options"
-            style="
-              display: flex;
-              justify-content: space-around;
-              font-size: 25px;
-            "
-          >
+          <div class="options" style="font-size: 25px">
             <div class="option-item">
               <label>🥰<br /><input type="radio" name="mood" /></label>
             </div>
@@ -324,14 +361,7 @@
         </div>
         <div class="selection-group">
           <div class="section-title">Naik apa?</div>
-          <div
-            class="options"
-            style="
-              display: flex;
-              justify-content: space-around;
-              font-size: 25px;
-            "
-          >
+          <div class="options" style="font-size: 25px">
             <div class="option-item">
               <label>🛵<br /><input type="checkbox" name="transport" /></label>
             </div>
@@ -355,7 +385,11 @@
 
       <div
         class="section-title"
-        style="font-size: 24px; color: var(--primary-pink)"
+        style="
+          font-size: 22px;
+          color: var(--primary-pink);
+          justify-content: center;
+        "
       >
         📓 Refleksi Awal Semester
       </div>
@@ -363,7 +397,10 @@
       <div class="grid-2-col" style="margin-top: 20px">
         <div>
           <p><b>Sekarang perasaanku:</b></p>
-          <div style="display: flex; gap: 15px; font-size: 30px">
+          <div
+            class="options"
+            style="font-size: 30px; justify-content: flex-start"
+          >
             <div class="option-item">
               <label>☹️<br /><input type="radio" name="feel" /></label>
             </div>
@@ -457,7 +494,6 @@
         btn.innerText = "Sedang Mengirim... ⏳";
 
         try {
-          // LOGIKA UNTUK MENGAMBIL CHECKBOX TRANSPORTASI
           const transportChecked = Array.from(
             document.querySelectorAll('input[name="transport"]:checked')
           )
@@ -482,10 +518,7 @@
               document
                 .querySelector('input[name="mood"]:checked')
                 ?.parentElement.innerText.trim() || "Tidak dipilih",
-
-            // FIELD BARU UNTUK TRANSPORTASI
             naikApa: transportChecked || "Tidak memilih",
-
             perasaan:
               document
                 .querySelector('input[name="feel"]:checked')
@@ -507,7 +540,6 @@
           };
 
           await addDoc(collection(db, "refleksi_siswa"), dataRefleksi);
-
           alert("Keren! Refleksi kamu sudah tersimpan! ✨");
           location.reload();
         } catch (e) {
@@ -521,7 +553,6 @@
     </script>
 
     <script>
-      // Logika visual Level Semangat
       const circles = document.querySelectorAll(".num-circle");
       circles.forEach((circle) => {
         circle.addEventListener("click", () => {
