@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Creative Journal - New Semester</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Patrick+Hand&display=swap");
+
+      :root {
+        --primary-pink: #ff8fb1;
+        --primary-purple: #b2a4ff;
+        --soft-yellow: #fff5b7;
+        --soft-blue: #b9f3fc;
+        --border-dark: #333;
+      }
+
+      body {
+        font-family: "Quicksand", sans-serif;
+        margin: 0;
+        padding: 40px 20px;
+        display: flex;
+        justify-content: center;
+        /* BACKGROUND BARU: Pola Grid Buku Catatan Aesthetic */
+        background-color: #f8f9fa;
+        background-image: linear-gradient(var(--soft-blue) 1px, transparent 1px),
+          linear-gradient(90deg, var(--soft-blue) 1px, transparent 1px);
+        background-size: 30px 30px; /* Ukuran kotak grid */
+      }
+
+      /* Menambahkan dekorasi tambahan di luar container agar lebih menarik */
+      body::before {
+        content: "✨ Happy New Semester ✨";
+        position: fixed;
+        top: 10px;
+        font-family: "Patrick Hand", cursive;
+        font-size: 24px;
+        color: var(--primary-pink);
+        font-weight: bold;
+      }
+
+      .container {
+        background-color: white;
+        width: 850px;
+        border: 3px solid var(--border-dark);
+        padding: 40px;
+        box-shadow: 15px 15px 0px var(--primary-purple);
+        border-radius: 5px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      /* Dekorasi Sudut (Washi Tape) */
+      .washi-tape {
+        position: absolute;
+        width: 120px;
+        height: 35px;
+        background: rgba(255, 143, 177, 0.6);
+        top: 20px;
+        right: -30px;
+        transform: rotate(35deg);
+        z-index: 10;
+      }
+
+      .header-banner {
+        text-align: center;
+        margin-bottom: 40px;
+        position: relative;
+      }
+
+      .banner-box {
+        display: inline-block;
+        transform: rotate(-1deg);
+      }
+
+      .title-top {
+        background-color: var(--primary-pink);
+        color: white;
+        font-size: 32px;
+        font-weight: bold;
+        padding: 10px 50px;
+        border: 3px solid var(--border-dark);
+        border-radius: 8px;
+        display: block;
+        box-shadow: 4px 4px 0px #000;
+      }
+
+      .title-bottom {
+        background-color: var(--soft-blue);
+        color: var(--border-dark);
+        font-size: 22px;
+        font-weight: bold;
+        padding: 5px 30px;
+        border: 3px solid var(--border-dark);
+        border-radius: 8px;
+        margin-top: -10px;
+        display: inline-block;
+        box-shadow: 4px 4px 0px #000;
+      }
+
+      .identity-grid {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        background: #fff9f9;
+        padding: 15px;
+        border-radius: 15px;
+        border: 2px dashed var(--primary-pink);
+      }
+
+      .input-group input {
+        border: none;
+        border-bottom: 2px solid var(--primary-purple);
+        padding: 5px 10px;
+        font-family: "Patrick Hand", cursive;
+        font-size: 18px;
+        outline: none;
+        background: transparent;
+      }
+
+      .card {
+        border: 3px solid var(--border-dark);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 25px;
+        background-color: #fff;
+        position: relative;
+      }
+
+      .card-yellow {
+        background-color: var(--soft-yellow);
+      }
+      .card-purple {
+        border-color: var(--primary-purple);
+      }
+
+      .section-title {
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .line-input {
+        margin-bottom: 15px;
+        font-family: "Patrick Hand", cursive;
+        font-size: 20px;
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+      }
+
+      .line-input input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-family: "Patrick Hand", cursive;
+        font-size: 20px;
+        margin-left: 5px;
+      }
+
+      textarea {
+        width: 100%;
+        border: none;
+        resize: none;
+        outline: none;
+        background: transparent;
+        font-family: "Patrick Hand", cursive;
+        font-size: 19px;
+        line-height: 1.4;
+      }
+
+      .sticker {
+        font-size: 30px;
+        position: absolute;
+        z-index: 5;
+      }
+
+      .grid-2-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .selection-group {
+        border: 2px solid var(--border-dark);
+        border-radius: 15px;
+        padding: 10px;
+        background: white;
+        box-shadow: 4px 4px 0px var(--soft-blue);
+      }
+
+      .option-item label {
+        cursor: pointer;
+        text-align: center;
+        display: block;
+        transition: transform 0.2s;
+      }
+
+      .option-item label:hover {
+        transform: scale(1.2);
+      }
+
+      .number-scale {
+        display: flex;
+        justify-content: space-between;
+        gap: 4px;
+        margin-top: 10px;
+      }
+
+      .num-circle {
+        width: 28px;
+        height: 28px;
+        border: 2px solid var(--border-dark);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 13px;
+        transition: 0.3s;
+        background: white;
+      }
+
+      .btn-save {
+        display: block;
+        margin: 40px auto 0;
+        background-color: var(--primary-pink);
+        color: white;
+        border: 3px solid var(--border-dark);
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-weight: bold;
+        font-size: 18px;
+        cursor: pointer;
+        box-shadow: 5px 5px 0px #000;
+      }
+
+      .btn-save:active {
+        box-shadow: 0px 0px 0px #000;
+        transform: translate(5px, 5px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="washi-tape"></div>
+      <span class="sticker" style="top: 100px; left: -10px">🚀</span>
+      <span class="sticker" style="top: 400px; right: 10px">🎨</span>
+      <span class="sticker" style="bottom: 100px; left: 10px">✨</span>
+
+      <div class="header-banner">
+        <div class="banner-box">
+          <span class="title-top">POSTCARD 💌</span>
+          <span class="title-bottom">Cerita Liburan & Refleksi Baru</span>
+        </div>
+      </div>
+
+      <div class="identity-grid">
+        <div class="input-fields">
+          <div class="input-group" style="margin-bottom: 10px">
+            <b>Nama:</b> <input type="text" placeholder="Tulis namamu..." />
+          </div>
+          <div class="input-group">
+            <b>Kelas:</b> <input type="text" placeholder="Kelas berapa?" />
+          </div>
+        </div>
+        <div
+          style="
+            font-family: monospace;
+            border: 2px solid #000;
+            padding: 10px;
+            background: #fff;
+          "
+        >
+          MODE: AWESOME 😎
+        </div>
+      </div>
+
+      <div class="card card-purple">
+        <div class="section-title">✨ Cerita Singkat Liburanku</div>
+        <div class="line-input">📍 Aku pergi ke: <input type="text" /></div>
+        <div class="line-input">
+          📸 Aktivitas favorit: <input type="text" />
+        </div>
+        <div class="line-input">👯 Bareng siapa?: <input type="text" /></div>
+        <div class="line-input">🌈 Momen terbaik: <input type="text" /></div>
+      </div>
+
+      <div class="section-title">🧠 Hal seru yang aku pelajari:</div>
+      <div class="card card-yellow" style="min-height: 80px">
+        <textarea
+          rows="3"
+          placeholder="Misal: Belajar masak, dapet skill baru..."
+        ></textarea>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="selection-group">
+          <div class="section-title">Mood Liburan?</div>
+          <div
+            class="options"
+            style="
+              display: flex;
+              justify-content: space-around;
+              font-size: 25px;
+            "
+          >
+            <div class="option-item">
+              <label>🥰<br /><input type="radio" name="mood" /></label>
+            </div>
+            <div class="option-item">
+              <label>😴<br /><input type="radio" name="mood" /></label>
+            </div>
+            <div class="option-item">
+              <label>🥳<br /><input type="radio" name="mood" /></label>
+            </div>
+            <div class="option-item">
+              <label>🤪<br /><input type="radio" name="mood" /></label>
+            </div>
+          </div>
+        </div>
+        <div class="selection-group">
+          <div class="section-title">Naik apa?</div>
+          <div
+            class="options"
+            style="
+              display: flex;
+              justify-content: space-around;
+              font-size: 25px;
+            "
+          >
+            <div class="option-item">
+              <label>🛵<br /><input type="checkbox" /></label>
+            </div>
+            <div class="option-item">
+              <label>🚗<br /><input type="checkbox" /></label>
+            </div>
+            <div class="option-item">
+              <label>🚆<br /><input type="checkbox" /></label>
+            </div>
+            <div class="option-item">
+              <label>✈️<br /><input type="checkbox" /></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin: 40px 0; color: #ccc">
+        --------------------
+        <span style="color: var(--primary-pink)">❤</span> --------------------
+      </div>
+
+      <div
+        class="section-title"
+        style="font-size: 24px; color: var(--primary-pink)"
+      >
+        📓 Refleksi Awal Semester
+      </div>
+
+      <div class="grid-2-col" style="margin-top: 20px">
+        <div>
+          <p><b>Sekarang perasaanku:</b></p>
+          <div style="display: flex; gap: 15px; font-size: 30px">
+            <div class="option-item">
+              <label>☹️<br /><input type="radio" name="feel" /></label>
+            </div>
+            <div class="option-item">
+              <label>😐<br /><input type="radio" name="feel" /></label>
+            </div>
+            <div class="option-item">
+              <label>🙂<br /><input type="radio" name="feel" /></label>
+            </div>
+            <div class="option-item">
+              <label>🤩<br /><input type="radio" name="feel" /></label>
+            </div>
+          </div>
+
+          <p style="margin-top: 30px"><b>Janji di Semester 2:</b></p>
+          <div
+            class="card"
+            style="border-style: solid; border-width: 2px; background: #fdfdfd"
+          >
+            <textarea rows="4" placeholder="Aku berjanji akan..."></textarea>
+          </div>
+        </div>
+
+        <div>
+          <p><b>Bad Habit yang mau dikurangi:</b></p>
+          <div class="card" style="border-color: #ffcc00; background: #fffdf0">
+            <textarea
+              rows="2"
+              placeholder="Scroll TikTok kelamaan..."
+            ></textarea>
+          </div>
+
+          <p><b>Cara biar janji terpenuhi:</b></p>
+          <input
+            type="text"
+            style="
+              width: 100%;
+              border: none;
+              border-bottom: 2px solid var(--soft-blue);
+              font-family: 'Patrick Hand';
+              font-size: 20px;
+            "
+            placeholder="Tulis rencanamu..."
+          />
+
+          <p style="margin-top: 30px"><b>Level Semangat Belajar:</b></p>
+          <div class="number-scale">
+            <div class="num-circle">1</div>
+            <div class="num-circle">2</div>
+            <div class="num-circle">3</div>
+            <div class="num-circle">4</div>
+            <div class="num-circle">5</div>
+            <div class="num-circle">6</div>
+            <div class="num-circle">7</div>
+            <div class="num-circle">8</div>
+            <div class="num-circle">9</div>
+            <div class="num-circle">10</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-save" onclick="generate()">
+        Kirim Refleksi & Mulai Petualangan! 🚀
+      </button>
+    </div>
+    <script type="module">
+      // Import fungsi yang dibutuhkan dari SDK
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+      // Konfigurasi Firebase (Ganti dengan milikmu dari Firebase Console!)
+      const firebaseConfig = {
+        apiKey: "AIzaSyDU8EarYjLpRSl-J3bGGVb8nVNjWcl3mvs",
+        authDomain: "refleksigenap2025-2026.firebaseapp.com",
+        projectId: "refleksigenap2025-2026",
+        storageBucket: "refleksigenap2025-2026.firebasestorage.app",
+        messagingSenderId: "120268266000",
+        appId: "1:120268266000:web:1c968d45cd46d20eaa8895",
+      };
+
+      // Inisialisasi Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // Jadikan fungsi kirim tersedia secara global
+      window.generate = async function () {
+        const btn = document.querySelector(".btn-save");
+        btn.disabled = true;
+        btn.innerText = "Sedang Mengirim... ⏳";
+
+        try {
+          // Ambil data dari input
+          const dataRefleksi = {
+            nama: document.querySelector('input[placeholder="Tulis namamu..."]')
+              .value,
+            kelas: document.querySelector('input[placeholder="Kelas berapa?"]')
+              .value,
+            lokasiLiburan:
+              document.querySelectorAll(".line-input input")[0].value,
+            aktivitas: document.querySelectorAll(".line-input input")[1].value,
+            teman: document.querySelectorAll(".line-input input")[2].value,
+            momenTerbaik:
+              document.querySelectorAll(".line-input input")[3].value,
+            halBaru: document.querySelector(
+              'textarea[placeholder*="Misal: Belajar"]'
+            ).value,
+            mood:
+              document
+                .querySelector('input[name="mood"]:checked')
+                ?.parentElement.innerText.trim() || "Tidak dipilih",
+            janji: document.querySelector(
+              'textarea[placeholder="Aku berjanji akan..."]'
+            ).value,
+            badHabit: document.querySelector(
+              'textarea[placeholder="Scroll TikTok kelamaan..."]'
+            ).value,
+            rencana: document.querySelector(
+              'input[placeholder="Tulis rencanamu..."]'
+            ).value,
+            // Mengambil level semangat dari lingkaran yang aktif
+            levelSemangat:
+              document.querySelector(
+                '.num-circle[style*="background-color: rgb(178, 164, 255)"]'
+              )?.innerText || "0",
+            createdAt: serverTimestamp(),
+          };
+
+          // Simpan ke koleksi "refleksi_siswa"
+          const docRef = await addDoc(
+            collection(db, "refleksi_siswa"),
+            dataRefleksi
+          );
+
+          alert("Keren! Refleksi kamu tersimpan dengan ID: " + docRef.id);
+          location.reload(); // Refresh halaman setelah sukses
+        } catch (e) {
+          console.error("Error adding document: ", e);
+          alert(
+            "Ups! Ada kesalahan saat menyimpan. Coba cek koneksi atau konfigurasi."
+          );
+        } finally {
+          btn.disabled = false;
+          btn.innerText = "Kirim Refleksi & Mulai Petualangan! 🚀";
+        }
+      };
+    </script>
+    <script>
+      function generate() {
+        alert(
+          "Keren! Refleksi kamu sudah tercatat. Mari buat semester ini jadi yang terbaik! ✨"
+        );
+      }
+
+      const circles = document.querySelectorAll(".num-circle");
+      circles.forEach((circle) => {
+        circle.addEventListener("click", () => {
+          circles.forEach((c) => {
+            c.style.backgroundColor = "white";
+            c.style.color = "black";
+            c.style.transform = "scale(1)";
+          });
+          circle.style.backgroundColor = "#b2a4ff";
+          circle.style.color = "white";
+          circle.style.transform = "scale(1.2)";
+          circle.style.borderColor = "#000";
+        });
+      });
+    </script>
+  </body>
+</html>
